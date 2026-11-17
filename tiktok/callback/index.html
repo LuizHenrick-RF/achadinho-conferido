@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex"><meta name="referrer" content="no-referrer"><link rel="stylesheet" href="../../style.css"><title>Login do TikTok · Achadinho Conferido</title></head><body>
+<h1>Login do TikTok</h1>
+<p id="msg">Login concluído. Copie o endereço abaixo e cole no comando <code>tiktok-login-code --url "..."</code>.</p>
+<textarea id="url" readonly></textarea>
+<p><button id="copy" type="button">Copiar endereço</button> <span id="ok"></span></p>
+<p>Esta página não envia nada para lugar nenhum: o código existe só no endereço do seu navegador.</p>
+<script>
+const u = document.getElementById('url');
+u.value = location.href;
+const q = new URLSearchParams(location.search);
+const msg = document.getElementById('msg');
+if (q.get('error')) msg.textContent = 'O TikTok recusou o login: ' + q.get('error');
+else if (!q.get('code')) msg.textContent = 'Esta página só é útil logo depois do login do TikTok (o endereço não tem código).';
+document.getElementById('copy').onclick = async () => {
+  u.select();
+  try { await navigator.clipboard.writeText(u.value); } catch (e) { document.execCommand('copy'); }
+  document.getElementById('ok').textContent = 'Copiado.';
+};
+</script>
+</body></html>
